@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Powered E-Commerce Demo</title>
+   
+
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom Styling */
+        :root {
+            --primary-color: #007BFF;
+            --secondary-color: #333;
+            --background-color: #f8f9fa;
+            --card-background: #ffffff;
+        }
+        html { scroll-behavior: smooth; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+        .btn-primary { background-color: var(--primary-color); }
+        .btn-primary:hover { background-color: #0056b3; }
+        .hero { background-color: var(--secondary-color); }
+        .main-footer { background-color: var(--secondary-color); }
+        .chat-icon { background-color: var(--primary-color); }
+
+        /* Spinner for loading state */
+        .spinner {
+            border: 2px solid rgba(0, 0, 0, 0.1);
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border-left-color: #fff;
+            animation: spin 1s ease infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Chatbot Styles */
+        #chat-widget-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        #chat-window {
+            width: 350px;
+            height: 500px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            transition: all 0.3s ease;
+            transform-origin: bottom right;
+        }
+        .chat-message.user {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        .chat-message.ai {
+            background-color: #E9ECEF;
+            color: #333;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+                <a href="#" class="text-2xl font-bold text-gray-800">E-Commerce Demo</a>
+                <nav class="hidden md:flex space-x-6">
+                    <a href="#" class="text-gray-600 hover:text-blue-600 transition">Home</a>
+                    <a href="#products" class="text-gray-600 hover:text-blue-600 transition">Products</a>
+                    <a href="#book-meeting" class="text-gray-600 hover:text-blue-600 transition">Book a Meeting</a>
+                    <a href="#contact" class="text-gray-600 hover:text-blue-600 transition">Contact</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero text-white text-center py-20">
+            <h1 class="text-4xl md:text-5xl font-extrabold mb-3">Demo E-Commerce Test Site</h1>
+            <p class="text-lg md:text-xl text-gray-300">Testing Campaign Tracking & Analytics Flow with AI</p>
+        </section>
+
+        <section id="products" class="py-16">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">Our Products</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Product Card 1 -->
+                    <div class="product-card bg-white rounded-lg shadow-lg overflow-hidden flex flex-col transform hover:-translate-y-2 transition-transform duration-300">
+                        <img src="https://placehold.co/600x400/007BFF/white?text=Premium+Gadget" alt="Premium Gadget" class="w-full h-56 object-cover">
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="text-2xl font-bold mb-2 product-name">Premium Gadget</h3>
+                            <div class="flex justify-between items-center mb-2">
+                                <p class="text-sm text-gray-600">Description:</p>
+                                 <button class="generate-desc-btn text-xs font-semibold text-white bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 px-3 py-1 rounded-full shadow-md transition-transform transform hover:scale-105 flex items-center gap-1">
+                                    <span>✨ Suggest</span>
+                                    <div class="spinner hidden"></div>
+                                </button>
+                            </div>
+                            <p class="text-gray-700 flex-grow product-description">A high-quality gadget that solves all your problems.</p>
+                            <div class="text-2xl font-bold text-blue-600 my-4">$199.99</div>
+                            <button class="btn-primary text-white font-bold py-2 px-4 rounded-lg w-full mt-auto transition-shadow shadow-md hover:shadow-lg" onclick="addToCart(1)">Add to Cart</button>
+                        </div>
+                    </div>
+                    <!-- Product Card 2 -->
+                    <div class="product-card bg-white rounded-lg shadow-lg overflow-hidden flex flex-col transform hover:-translate-y-2 transition-transform duration-300">
+                        <img src="https://placehold.co/600x400/28a745/white?text=Eco-Bottle" alt="Eco-Friendly Bottle" class="w-full h-56 object-cover">
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="text-2xl font-bold mb-2 product-name">Eco-Friendly Bottle</h3>
+                             <div class="flex justify-between items-center mb-2">
+                                <p class="text-sm text-gray-600">Description:</p>
+                                 <button class="generate-desc-btn text-xs font-semibold text-white bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 px-3 py-1 rounded-full shadow-md transition-transform transform hover:scale-105 flex items-center gap-1">
+                                    <span>✨ Suggest</span>
+                                    <div class="spinner hidden"></div>
+                                </button>
+                            </div>
+                            <p class="text-gray-700 flex-grow product-description">Stay hydrated with our stylish, reusable bottle.</p>
+                            <div class="text-2xl font-bold text-blue-600 my-4">$24.99</div>
+                            <button class="btn-primary text-white font-bold py-2 px-4 rounded-lg w-full mt-auto transition-shadow shadow-md hover:shadow-lg" onclick="addToCart(2)">Add to Cart</button>
+                        </div>
+                    </div>
+                    <!-- Product Card 3 -->
+                    <div class="product-card bg-white rounded-lg shadow-lg overflow-hidden flex flex-col transform hover:-translate-y-2 transition-transform duration-300">
+                        <img src="https://placehold.co/600x400/dc3545/white?text=Comfort+T-Shirt" alt="Comfort T-Shirt" class="w-full h-56 object-cover">
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="text-2xl font-bold mb-2 product-name">Comfort T-Shirt</h3>
+                            <div class="flex justify-between items-center mb-2">
+                                <p class="text-sm text-gray-600">Description:</p>
+                                 <button class="generate-desc-btn text-xs font-semibold text-white bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 px-3 py-1 rounded-full shadow-md transition-transform transform hover:scale-105 flex items-center gap-1">
+                                    <span>✨ Suggest</span>
+                                    <div class="spinner hidden"></div>
+                                </button>
+                            </div>
+                            <p class="text-gray-700 flex-grow product-description">Made from 100% organic cotton for maximum comfort.</p>
+                            <div class="text-2xl font-bold text-blue-600 my-4">$39.99</div>
+                            <button class="btn-primary text-white font-bold py-2 px-4 rounded-lg w-full mt-auto transition-shadow shadow-md hover:shadow-lg" onclick="addToCart(3)">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="book-meeting" class="bg-gray-200 py-16">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">Book a Meeting</h2>
+                <div class="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-lg flex flex-col items-center">
+                    <!-- Tally Form Embed -->
+                    <iframe data-tally-src="https://tally.so/embed/w7GgLL?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1" loading="lazy" width="100%" height="300" frameborder="0" marginheight="0" marginwidth="0" title="Lead generation form"></iframe>
+                </div>
+            </div>
+        </section>
+        
+        <section id="contact" class="text-center py-16">
+            <h2 class="text-3xl font-bold mb-4">Get In Touch</h2>
+            <p class="max-w-xl mx-auto mb-6">Have questions? Feel free to reach out directly.</p>
+            <a href="mailto:specmedia0524@gmail.com" class="btn-primary text-white font-bold py-3 px-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform inline-block">Email Us</a>
+        </section>
+    </main>
+
+    <footer class="main-footer text-white text-center py-5">
+        <p>&copy; 2025 Demo E-Commerce Test Site</p>
+    </footer>
+
+    <!-- Chat Widget Container -->
+    <div id="chat-widget-container">
+        <!-- Chat Window (hidden by default) -->
+        <div id="chat-window" class="hidden flex-col bg-white overflow-hidden">
+            <!-- Header -->
+            <div class="bg-blue-600 text-white p-4 flex justify-between items-center">
+                <h3 class="font-bold text-lg">AI Assistant</h3>
+                <button id="close-chat-btn" class="text-white text-2xl leading-none" type="button" aria-label="Close chat window">&times;</button>
+            </div>
+            <!-- Messages -->
+            <div id="chat-messages" class="flex-1 p-4 overflow-y-auto space-y-3">
+                <div class="chat-message ai self-start max-w-xs rounded-lg p-3">Hello! How can I help you today?</div>
+            </div>
+            <!-- Input -->
+            <div class="p-4 border-t border-gray-200">
+                <form id="chat-form" class="flex items-center space-x-2">
+                    <input type="text" id="chat-input" placeholder="Type your message..." autocomplete="off" class="w-full px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <button type="submit" class="bg-blue-600 text-white rounded-full p-2 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500" aria-label="Send message">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Chat Icon -->
+        <div id="chat-icon-trigger" class="chat-icon cursor-pointer w-16 h-16 flex items-center justify-center rounded-full shadow-lg" role="button" tabindex="0" aria-label="Open chat window">
+             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-chat-dots-fill text-white" viewBox="0 0 16 16" aria-hidden="true">
+                <path d="M16 8c0 3.866-3.582 7-8 7a9.06 9.06 0 0 1-2.347-.306c-.584.296-1.925.864-4.181 1.234-.2.032-.352-.176-.273-.362.354-.836.674-1.95.77-2.966C.744 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7zM5 8a1 1 0 1 0-2 0 1 1 0 0 0 2 0zm4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0zm4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0z"/>
+            </svg>
+        </div>
+    </div>
+    
+    <!-- External Scripts -->
+    <script src="https://tally.so/widgets/embed.js" type="text/javascript" async></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // This function is still needed for gtag() to exist when called, even if GTM is the one defining it.
+             window.dataLayer = window.dataLayer || [];
+             function gtag(){dataLayer.push(arguments);}
+
+            // --- Gemini Powered Webchat ---
+            const chatWindow = document.getElementById('chat-window');
+            const chatIcon = document.getElementById('chat-icon-trigger');
+            const closeChatBtn = document.getElementById('close-chat-btn');
+            const chatForm = document.getElementById('chat-form');
+            const chatInput = document.getElementById('chat-input');
+            const chatMessages = document.getElementById('chat-messages');
+            
+            let chatHistory = []; // To maintain conversation context
+            let isChatOpen = false;
+
+            // --- START: Chatbot Customization ---
+            // Modify this prompt to change the chatbot's persona, instructions, and knowledge.
+            const systemPrompt = `
+                You are a friendly and helpful e-commerce assistant for "E-Commerce Demo".
+                Your goal is to answer customer questions about products, help them book meetings, and provide general support.
+                - Keep your answers concise and friendly.
+                - If you don't know an answer, politely say so and suggest they email contact@example.com.
+                - The products available are: Premium Gadget ($199.99), Eco-Friendly Bottle ($24.99), and Comfort T-Shirt ($39.99).
+                - To book a meeting, direct users to the "Book a Meeting" section on the page.
+            `;
+            // --- END: Chatbot Customization ---
+
+            const toggleChat = () => {
+                if (isChatOpen) {
+                    chatWindow.classList.add('hidden');
+                    chatIcon.classList.remove('hidden');
+                } else {
+                    // Push GA4 event when chat is opened for the first time
+                    if (chatHistory.length === 0) {
+                        gtag('event', 'chat_started', {
+                            'event_category': 'engagement',
+                            'event_label': 'AI Chat Initiated'
+                        });
+                    }
+                    chatWindow.classList.remove('hidden');
+                    chatWindow.classList.add('flex');
+                    chatIcon.classList.add('hidden');
+                }
+                isChatOpen = !isChatOpen;
+            };
+
+            chatIcon.addEventListener('click', toggleChat);
+            closeChatBtn.addEventListener('click', toggleChat);
+
+            chatForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const userMessage = chatInput.value.trim();
+                if (!userMessage) return;
+
+                appendMessage(userMessage, 'user');
+                chatHistory.push({ role: 'user', parts: [{ text: userMessage }] });
+                chatInput.value = '';
+
+                // Push GA4 event for user message
+                gtag('event', 'message_sent', {
+                    'event_category': 'chat',
+                    'event_label': 'User Message',
+                    'message_length': userMessage.length
+                });
+
+                // Add typing indicator
+                const typingIndicator = appendMessage('...', 'ai', true);
+
+                try {
+                    const fullPrompt = `${systemPrompt}\n\nConversation History:\n${JSON.stringify(chatHistory)}\n\nNew Message: ${userMessage}`;
+                    const aiResponse = await callGeminiAPI(fullPrompt);
+                    
+                    // Remove typing indicator and add final response
+                    typingIndicator.remove();
+                    appendMessage(aiResponse, 'ai');
+                    chatHistory.push({ role: 'model', parts: [{ text: aiResponse }] });
+                    
+                    // Push GA4 event for AI response
+                    gtag('event', 'ai_response_received', {
+                        'event_category': 'chat',
+                        'event_label': 'AI Response'
+                    });
+
+                } catch (error) {
+                    typingIndicator.textContent = "Sorry, I'm having trouble connecting. Please try again later.";
+                    console.error("Chatbot Error:", error);
+                }
+            });
+
+            function appendMessage(text, type, isTyping = false) {
+                const messageDiv = document.createElement('div');
+                messageDiv.textContent = text;
+                messageDiv.className = `chat-message ${type} self-start max-w-xs rounded-lg p-3`;
+                if (type === 'user') {
+                    messageDiv.classList.add('self-end');
+                }
+                
+                if (isTyping) {
+                    messageDiv.classList.add('animate-pulse');
+                }
+
+                chatMessages.appendChild(messageDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight; // Auto-scroll
+                return messageDiv;
+            }
+        });
+
+        // --- This is a placeholder for future cart functionality. ---
+        function addToCart(productId) {
+            console.log(`Product ${productId} added to cart.`);
+            alert(`Product ${productId} has been added to your cart! (Frontend-only demo)`);
+        }
+
+        // --- Gemini API Integration ---
+        const callGeminiAPI = async (prompt, retries = 3, delay = 1000) => {
+            const apiKey = ""; // API key is handled by the execution environment
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+            const payload = { contents: [{ parts: [{ text: prompt }] }] };
+            for (let i = 0; i < retries; i++) {
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                    const result = await response.json();
+                    const text = result.candidates?.[0]?.content?.parts?.[0]?.text;
+                    if (text) return text;
+                    throw new Error('Invalid response structure from Gemini API.');
+                } catch (error) {
+                    console.error(`Attempt ${i + 1} failed:`, error);
+                    if (i === retries - 1) throw error;
+                    await new Promise(res => setTimeout(res, delay * Math.pow(2, i)));
+                }
+            }
+        };
+
+        // --- Feature 1: AI Product Descriptions ---
+        document.querySelectorAll('.generate-desc-btn').forEach(button => {
+            button.addEventListener('click', async () => {
+                const card = button.closest('.product-card');
+                const productName = card.querySelector('.product-name').textContent;
+                const descriptionP = card.querySelector('.product-description');
+                const spinner = button.querySelector('.spinner');
+                const buttonText = button.querySelector('span');
+                button.disabled = true;
+                spinner.classList.remove('hidden');
+                buttonText.textContent = 'Generating...';
+                descriptionP.textContent = 'Our AI is crafting a description...';
+                const prompt = `Write a short, exciting, and professional e-commerce product description for a product called "${productName}". Keep it under 25 words.`;
+                try {
+                    const newDescription = await callGeminiAPI(prompt);
+                    descriptionP.textContent = newDescription.trim();
+                } catch (error) {
+                    descriptionP.textContent = 'Could not generate description. Please try again later.';
+                } finally {
+                    button.disabled = false;
+                    spinner.classList.add('hidden');
+                    buttonText.textContent = '✨ Suggest';
+                }
+            });
+        });
+
+    </script>
+</body>
+</html>
+
